@@ -1,7 +1,7 @@
 {
-  "name": "hairballs",
+  "name": "hairballs-ext",
   "version": "0.0.9",
-  "description": "Shared utilities for Lint Reporters",
+  "description": "Shared utilities for Extended Lint Reporters",
   "keywords": [
     "eslint",
     "scss-lint",
@@ -14,19 +14,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/edendramis/hairballs.git"
+    "url": "https://github.com/rooseveltlai/hairballs.git"
   },
   "author": {
-    "email": "edendramis@gmail.com"
+    "email": "roosevelt.lai@gmail.com"
   },
   "license": {
     "type": "MIT",
-    "url": "https://github.com/edendramis/hairballs/blob/master/LICENSE"
+    "url": "https://github.com/rooseveltlai/hairballs/blob/master/LICENSE"
   },
   "bugs": {
-    "url": "https://github.com/edendramis/hairballs/issues"
+    "url": "https://github.com/rooseveltlai/hairballs/issues"
   },
-  "homepage": "https://github.com/edendramis/hairballs",
+  "homepage": "https://github.com/rooseveltlai/hairballs",
   "dependencies": {
     "handlebars": "3.0.3"
   },
