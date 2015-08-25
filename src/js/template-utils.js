@@ -82,6 +82,15 @@ exports.registerPartials = function() {
   var fileBreakdown = fs.readFileSync(path.join(partialsPath, 'file-breakdown.hbs'),
     { encoding: 'utf-8' }
   );
+  
+  var fileBreakdownSummary = fs.readFileSync(path.join(partialsPath, 'file-breakdown-summary.hbs'),
+    { encoding: 'utf-8' }
+  );
+  
+  // file breakdown
+  var folderBreakdown = fs.readFileSync(path.join(partialsPath, 'folder-breakdown.hbs'),
+    { encoding: 'utf-8' }
+  );  
 
   // occurances
   var occurances = fs.readFileSync(path.join(partialsPath, 'occurances.hbs'),
@@ -101,6 +110,8 @@ exports.registerPartials = function() {
   handlebars.registerPartial({
     summary: handlebars.compile(summary),
     fileBreakdown: handlebars.compile(fileBreakdown),
+    fileBreakdownSummary: handlebars.compile(fileBreakdownSummary),
+    folderBreakdown: handlebars.compile(folderBreakdown),    
     occurances: handlebars.compile(occurances),
     js: handlebars.compile(js),
     css: handlebars.compile(css)
@@ -115,6 +126,28 @@ exports.registerHelpers = function() {
   handlebars.registerHelper('row', this.rowHelper);
   handlebars.registerHelper('messageRow', this.messageRow);
   handlebars.registerHelper('formatSeverity', this.formatSeverity);
+  handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+    switch (operator) {
+        case '==':
+            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+        case '===':
+            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '<':
+            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+        case '<=':
+            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+        case '>':
+            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+        case '>=':
+            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+        case '&&':
+            return (v1 && v2) ? options.fn(this) : options.inverse(this);
+        case '||':
+            return (v1 || v2) ? options.fn(this) : options.inverse(this);
+        default:
+            return options.inverse(this);
+    }
+  });
 };
 
 /**
@@ -122,7 +155,9 @@ exports.registerHelpers = function() {
  * @param {object} data - Data to parse with Handlebars template
  * @returns {string} - HTML-formatted report
  */
-exports.applyTemplates = function(data) {
+exports.applyTemplates = function(data, briefing) {
+
+  var templateFile = briefing ? 'reporter-briefing.hbs' : 'reporter.hbs';
 
   // initialization
   if (!data) {
@@ -132,7 +167,7 @@ exports.applyTemplates = function(data) {
   this.registerHelpers();
   this.registerPartials();
 
-  var reporter = fs.readFileSync(path.join(__dirname, '..', 'templates', 'reporter.hbs'),
+  var reporter = fs.readFileSync(path.join(__dirname, '..', 'templates', templateFile),
     { encoding: 'utf-8' }
   );
 

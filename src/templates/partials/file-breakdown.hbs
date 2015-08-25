@@ -1,9 +1,30 @@
-<h2>File Breakdown
-  {{#if fullReport}}
-    <a id="toggle" href="javascript:;" onclick="toggleAllDetails(this)" class="toggle-all-link">(expand all)</a>
-  {{~/if~}}
-</h2>
+<h2>Top 100 Files</h2>
 
+
+<table class="report-table">
+  <thead>
+    <tr>
+      <th>File</th>
+      <th class="error-col">Errors</th>
+      <th class="warning-col">Warnings</th>
+    </tr>
+  </thead>  
+  <tbody>
+    {{~#each files~}}
+    {{~#ifCond @index "<" 100 ~}}
+      {{~#row this~}}
+        <td>
+            <a class="toggle-link" href="#{{@index}}">{{path}}</a>
+        </td>
+        <td>{{errors}}</td>
+        <td>{{warnings}}</td>
+      {{~/row~}}
+    {{~/ifCond~}}      
+    {{~/each~}}
+  </tbody>
+</table>
+
+<h2>File Issue In Details</h2>
 <table class="report-table">
   <thead>
     <tr>
@@ -14,19 +35,16 @@
   </thead>
   <tbody>
     {{~#each files~}}
-      {{~#row this~}}
+    {{~#ifCond @index "<" 100 ~}}
+      <tr id="{{@index}}" class="warning">
         <td>
-          {{~#if messages.length}}
-            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">{{path}}</a>
-          {{~else~}}
             {{path}}
-          {{~/if~}}
         </td>
         <td>{{errors}}</td>
         <td>{{warnings}}</td>
-      {{~/row~}}
+      </tr>
       {{~#if messages.length~}}
-        <tr class="details-row hidden">
+        <tr class="details-row">
           <td colspan="3">
             <table class="details-table">
               <tbody>
@@ -38,7 +56,7 @@
                       {{/if}}
                     </td>
                     <td class="severity-col">{{formatSeverity this}}</td>
-                    <td class="message-col">{{message}}</td>
+                    <td class="message-col">{{message}}: <b><i>{{source}}</i></b></td>
                     {{#if ruleUrl}}
                       <td class="rule-col"><a href="{{ruleUrl}}">{{ruleId}}</a></td>
                     {{^}}
@@ -51,6 +69,7 @@
           </td>
         </tr>
       {{~/if~}}
+    {{~/ifCond~}}      
     {{~/each~}}
   </tbody>
 </table>

@@ -1,0 +1,22 @@
+<h2>Top 30 Folders</h2>
+
+<table class="report-table">
+  <thead>
+    <tr>
+      <th>Folder</th>
+      <th class="error-col">Issues (warnings and errors)</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{~#each folders~}}
+    {{~#ifCond @index "<" 30 ~}}
+      {{~#row this~}}
+        <td>
+            {{path}}
+        </td>
+        <td>{{errors}}</td>
+      {{~/row~}}
+    {{~/ifCond~}}      
+    {{~/each~}}
+  </tbody>
+</table>

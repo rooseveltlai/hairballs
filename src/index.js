@@ -4,6 +4,10 @@ exports.TeamCityLogger = require('./js/team-city-logger');
 exports.templateUtils = require('./js/template-utils');
 
 exports.files = [];
+exports.folders = [];
+exports._folderSet = {};
+
+var FILE_NAME_REGEX = /([^\/\\])*$/;
 
 exports.fileSummary = {
   errors: 0,
@@ -37,7 +41,12 @@ exports.updateFileSummary = function(file) {
 
   this.fileSummary.total++;
 
-  this.files.push(file);
+  if (file.errors > 0 || file.warnings > 0) {
+    this.files.push(file);  
+    var path = file.path.replace(FILE_NAME_REGEX, '');
+    var total = file.errors + file.warnings;
+    this._folderSet[path] = this._folderSet[path] ? this._folderSet[path] + total : total; 
+  }
 };
 
 
@@ -85,6 +94,28 @@ exports.sortErrors = function(a, b) {
   }
 };
 
+
+/**
+ * Sort folders by the total number of errors in it
+ */
+exports.sortByFolderError = function() {
+  do {
+    var folder, max_num_error = -1;
+    for (var p in this._folderSet) {
+      if (this._folderSet.hasOwnProperty(p)) {
+          if (this._folderSet[p] > max_num_error) {
+            max_num_error = this._folderSet[p];
+            folder = p;
+          }
+      }
+    }
+    this.folders.push({path: folder, errors: max_num_error});
+    
+    delete this._folderSet[folder];       
+  } while (Object.keys(this._folderSet).length > 0);
+  
+  return this.folders;
+};
 
 /**
  * Helper for sorting occurances

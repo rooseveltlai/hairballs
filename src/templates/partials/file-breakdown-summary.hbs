@@ -1,0 +1,25 @@
+<h2>Top 100 Files</h2>
+
+
+<table class="report-table">
+  <thead>
+    <tr>
+      <th>File</th>
+      <th class="error-col">Errors</th>
+      <th class="warning-col">Warnings</th>
+    </tr>
+  </thead>  
+  <tbody>
+    {{~#each files~}}
+    {{~#ifCond @index "<" 100 ~}}
+      {{~#row this~}}
+        <td>
+            <a class="toggle-link" href="#{{@index}}">{{path}}</a>
+        </td>
+        <td>{{errors}}</td>
+        <td>{{warnings}}</td>
+      {{~/row~}}
+    {{~/ifCond~}}      
+    {{~/each~}}
+  </tbody>
+</table>
