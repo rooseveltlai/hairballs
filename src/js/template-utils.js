@@ -148,6 +148,10 @@ exports.registerHelpers = function() {
             return options.inverse(this);
     }
   });
+  handlebars.registerHelper('fileUrl', function(id) {
+    return process.env.reporter_full_rpt_url + '#' + id;
+  });
+
 };
 
 /**

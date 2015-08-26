@@ -1,6 +1,6 @@
 {
   "name": "hairballs-ext",
-  "version": "0.0.9",
+  "version": "0.1.1",
   "description": "Shared utilities for Extended Lint Reporters",
   "keywords": [
     "eslint",

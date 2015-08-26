@@ -14,7 +14,7 @@
     {{~#ifCond @index "<" 100 ~}}
       {{~#row this~}}
         <td>
-            <a class="toggle-link" href="#{{@index}}">{{path}}</a>
+            <a class="toggle-link" target="_blank" href="{{fileUrl @index}}">{{path}}</a>
         </td>
         <td>{{errors}}</td>
         <td>{{warnings}}</td>
